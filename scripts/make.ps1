@@ -80,7 +80,11 @@ Function Execute-Build($additionalBuildTags, $directory) {
                     $allParm + `
                     $optParm + `
                     " -tags """ + $buildTags + """" + `
-                    " -ldflags """ + "-linkmode=internal" + """" + `
+                    " -ldflags """ + "-linkmode=internal" + `
+                    " -X github.com/docker/cli/cli.Version=$env:VERSION" + `
+                    " -X github.com/docker/cli/cli.GitCommit=$env:GITCOMMIT" + `
+                    " -X github.com/docker/cli/cli.BuildTime=$env:BUILDTIME" + `
+                    """" + `
                     " -o $root\build\"+$directory+".exe"
     Invoke-Expression $buildCommand
     if ($LASTEXITCODE -ne 0) { Throw "Failed to compile" }

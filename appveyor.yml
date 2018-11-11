@@ -16,6 +16,11 @@ install:
 
 deploy: false
 
+before_build:
+  - ps: $env:VERSION = Get-Content VERSION
+  - ps: $env:GITCOMMIT = git rev-parse --short HEAD
+  - ps: $env:BUILDTIME = Get-Date  -Format o | foreach {$_ -replace "T", " "}
+
 build_script:
   - ps: .\scripts\make.ps1 -Binary
 
