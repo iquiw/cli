@@ -5,12 +5,9 @@ clone_folder: c:\gopath\src\github.com\docker\cli
 
 environment:
   GOPATH: c:\gopath
-  DEPVERSION: v0.5.0
 
 install:
-  - mkdir %GOPATH%\bin
-  - curl -o %GOPATH%\bin\dep.exe https://github.com/golang/dep/releases/download/%DEPVERSION%/dep-windows-amd64
-  - set PATH=%PATH%;%GOPATH%\bin
+  - set PATH=c:\mingw-w64\x86_64-7.2.0-posix-seh-rt_v5-rev1\mingw64\bin;%PATH%;
   - go version
   - go env
 
@@ -22,7 +19,10 @@ before_build:
   - ps: $env:BUILDTIME = Get-Date  -Format o | foreach {$_ -replace "T", " "}
 
 build_script:
-  - ps: .\scripts\make.ps1 -Binary
+  # - ps: .\scripts\make.ps1 -Binary -Noisy
+  # - go build -v
+  - cd cmd\docker
+  - ps: go build -v -tags "autogen" -ldflags "-linkmode=internal -X github.com/docker/cli/cli.Version=18.09.0-dev -X github.com/docker/cli/cli.GitCommit=f61f560 -X ""github.com/docker/cli/cli.BuildTime=2018-11-13 14:55:34.2184579+00:00""" -o C:\gopath\src\github.com\docker\cli\build\docker.exe
 
-test_script:
-  - ps: .\scripts\make.ps1 -TestUnit
+# test_script:
+  # - ps: .\scripts\make.ps1 -TestUnit

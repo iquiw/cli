@@ -85,7 +85,8 @@ Function Execute-Build($additionalBuildTags, $directory) {
                     " -X github.com/docker/cli/cli.GitCommit=$env:GITCOMMIT" + `
                     " -X github.com/docker/cli/cli.BuildTime=$env:BUILDTIME" + `
                     """" + `
-                    " -o $root\build\"+$directory+".exe"
+      " -o $root\build\"+$directory+".exe"
+    Write-Host $buildCommand
     Invoke-Expression $buildCommand
     if ($LASTEXITCODE -ne 0) { Throw "Failed to compile" }
     Pop-Location; $global:pushed=$False
