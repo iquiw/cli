@@ -1,4 +1,4 @@
-// +build linux freebsd
+// +build linux freebsd netbsd
 
 package system // import "github.com/docker/docker/pkg/system"
 
