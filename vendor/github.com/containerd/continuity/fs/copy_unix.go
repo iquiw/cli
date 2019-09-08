@@ -1,4 +1,4 @@
-// +build solaris darwin freebsd
+// +build solaris darwin freebsd netbsd
 
 /*
    Copyright The containerd Authors.

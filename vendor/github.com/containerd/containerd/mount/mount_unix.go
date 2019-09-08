@@ -1,4 +1,4 @@
-// +build darwin freebsd openbsd
+// +build darwin freebsd netbsd openbsd
 
 /*
    Copyright The containerd Authors.
