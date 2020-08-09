@@ -14,8 +14,8 @@ import (
 	"github.com/docker/cli/cli/config/credentials"
 	"github.com/docker/docker/pkg/homedir"
 	"github.com/pkg/errors"
-	"gotest.tools/assert"
-	is "gotest.tools/assert/cmp"
+	"gotest.tools/v3/assert"
+	is "gotest.tools/v3/assert/cmp"
 )
 
 func setupConfigDir(t *testing.T) (string, func()) {
@@ -80,7 +80,7 @@ func TestEmptyFile(t *testing.T) {
 	assert.NilError(t, err)
 
 	_, err = Load(tmpHome)
-	assert.Equal(t, errors.Cause(err), io.EOF)
+	assert.Assert(t, errors.Is(err, io.EOF))
 	assert.ErrorContains(t, err, ConfigFileName)
 }
 
@@ -454,7 +454,6 @@ func TestJSONWithPsFormatNoFile(t *testing.T) {
 	if config.PsFormat != `table {{.ID}}\t{{.Label "com.docker.label.cpu"}}` {
 		t.Fatalf("Unknown ps format: %s\n", config.PsFormat)
 	}
-
 }
 
 func TestJSONSaveWithNoFile(t *testing.T) {
@@ -578,6 +577,7 @@ func TestConfigPath(t *testing.T) {
 			expectedErr: fmt.Sprintf("is outside of root config directory %q", "dummy"),
 		},
 	} {
+		tc := tc
 		t.Run(tc.name, func(t *testing.T) {
 			SetDir(tc.dir)
 			f, err := Path(tc.path...)

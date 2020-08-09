@@ -18,9 +18,9 @@ import (
 	"github.com/theupdateframework/notary/passphrase"
 	"github.com/theupdateframework/notary/trustpinning"
 	"github.com/theupdateframework/notary/tuf/data"
-	"gotest.tools/assert"
-	is "gotest.tools/assert/cmp"
-	"gotest.tools/skip"
+	"gotest.tools/v3/assert"
+	is "gotest.tools/v3/assert/cmp"
+	"gotest.tools/v3/skip"
 )
 
 const passwd = "password"
@@ -116,7 +116,7 @@ func TestGetOrGenerateNotaryKey(t *testing.T) {
 	assert.Check(t, is.DeepEqual(rootKeyA.Public(), rootKeyB.Public()))
 
 	// Now also try with a delegation key
-	releasesKey, err := getOrGenerateNotaryKey(notaryRepo, data.RoleName(trust.ReleasesRole))
+	releasesKey, err := getOrGenerateNotaryKey(notaryRepo, trust.ReleasesRole)
 	assert.NilError(t, err)
 	assert.Check(t, releasesKey != nil)
 

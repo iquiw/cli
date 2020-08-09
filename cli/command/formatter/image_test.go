@@ -9,8 +9,8 @@ import (
 
 	"github.com/docker/docker/api/types"
 	"github.com/docker/docker/pkg/stringid"
-	"gotest.tools/assert"
-	is "gotest.tools/assert/cmp"
+	"gotest.tools/v3/assert"
+	is "gotest.tools/v3/assert/cmp"
 )
 
 func TestImageContext(t *testing.T) {
@@ -348,7 +348,8 @@ func TestImageContextWriteWithNoImage(t *testing.T) {
 	}
 
 	for _, context := range contexts {
-		ImageWrite(context.context, images)
+		err := ImageWrite(context.context, images)
+		assert.NilError(t, err)
 		assert.Check(t, is.Equal(context.expected, out.String()))
 		// Clean buffer
 		out.Reset()

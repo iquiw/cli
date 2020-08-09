@@ -61,16 +61,9 @@ by the `docker` command line:
 
 * `DOCKER_API_VERSION` The API version to use (e.g. `1.19`)
 * `DOCKER_CONFIG` The location of your client configuration files.
-* `DOCKER_CERT_PATH` The location of your authentication keys.
 * `DOCKER_CLI_EXPERIMENTAL` Enable experimental features for the cli (e.g. `enabled` or `disabled`)
-* `DOCKER_DRIVER` The graph driver to use.
 * `DOCKER_HOST` Daemon socket to connect to.
-* `DOCKER_NOWARN_KERNEL_VERSION` Prevent warnings that your Linux kernel is
-  unsuitable for Docker.
-* `DOCKER_RAMDISK` If set this will disable 'pivot_root'.
 * `DOCKER_STACK_ORCHESTRATOR` Configure the default orchestrator to use when using `docker stack` management commands.
-* `DOCKER_TLS` When set Docker uses TLS.
-* `DOCKER_TLS_VERIFY` When set Docker uses TLS and verifies the remote.
 * `DOCKER_CONTENT_TRUST` When set Docker uses notary to sign and verify images.
   Equates to `--disable-content-trust=false` for build, create, pull, push, run.
 * `DOCKER_CONTENT_TRUST_SERVER` The URL of the Notary server to use. This defaults
@@ -78,9 +71,16 @@ by the `docker` command line:
 * `DOCKER_HIDE_LEGACY_COMMANDS` When set, Docker hides "legacy" top-level commands (such as `docker rm`, and
   `docker pull`) in `docker help` output, and only `Management commands` per object-type (e.g., `docker container`) are
   printed. This may become the default in a future release, at which point this environment-variable is removed.
-* `DOCKER_TMPDIR` Location for temporary Docker files.
 * `DOCKER_CONTEXT` Specify the context to use (overrides DOCKER_HOST env var and default context set with "docker context use")
 * `DOCKER_DEFAULT_PLATFORM` Specify the default platform for the commands that take the `--platform` flag.
+
+#### Shared Environment variables
+
+These environment variables can be used both with the `docker` command line and
+`dockerd` command line:
+
+* `DOCKER_CERT_PATH` The location of your authentication keys.
+* `DOCKER_TLS_VERIFY` When set Docker uses TLS and verifies the remote.
 
 Because Docker is developed using Go, you can also use any environment
 variables used by the Go runtime. In particular, you may find these useful:
@@ -221,6 +221,23 @@ running `docker stack` management commands. Valid values are `"swarm"`,
 `"kubernetes"`, and `"all"`. This property can be overridden with the
 `DOCKER_STACK_ORCHESTRATOR` environment variable, or the `--orchestrator` flag.
 
+The property `proxies` specifies proxy environment variables to be automatically
+set on containers, and set as `--build-arg` on containers used during `docker build`.
+A `"default"` set of proxies can be configured, and will be used for any docker
+daemon that the client connects to, or a configuration per host (docker daemon),
+for example, "https://docker-daemon1.example.com". The following properties can
+be set for each environment:
+
+* `httpProxy` (sets the value of `HTTP_PROXY` and `http_proxy`)
+* `httpsProxy` (sets the value of `HTTPS_PROXY` and `https_proxy`)
+* `ftpProxy` (sets the value of `FTP_PROXY` and `ftp_proxy`)
+* `noProxy` (sets the value of `NO_PROXY` and `no_proxy`)
+
+> **Warning**: Proxy settings may contain sensitive information (for example,
+> if the proxy requires authentication). Environment variables are stored as
+> plain text in the container's configuration, and as such can be inspected
+> through the remote API or committed to an image when using `docker commit`.
+
 Once attached to a container, users detach from it and leave it running using
 the using `CTRL-p CTRL-q` key sequence. This detach key sequence is customizable
 using the `detachKeys` property. Specify a `<sequence>` value for the
@@ -275,6 +292,18 @@ Following is a sample `config.json` file:
       "anotheroption": "anothervalue",
       "athirdoption": "athirdvalue"
     }
+  },
+  "proxies": {
+    "default": {
+      "httpProxy":  "http://user:pass@example.com:3128",
+      "httpsProxy": "http://user:pass@example.com:3128",
+      "noProxy":    "http://user:pass@example.com:3128",
+      "ftpProxy":   "http://user:pass@example.com:3128"
+    },
+    "https://manager1.mycorp.example.com:2377": {
+      "httpProxy":  "http://user:pass@example.com:3128",
+      "httpsProxy": "http://user:pass@example.com:3128"
+    },
   }
 }
 {% endraw %}
@@ -373,7 +402,9 @@ Sometimes, multiple options can call for a more complex value string as for
 $ docker run -v /host:/container example/mysql
 ```
 
-> **Note**: Do not use the `-t` and `-a stderr` options together due to
+> **Note**
+>
+> Do not use the `-t` and `-a stderr` options together due to
 > limitations in the `pty` implementation. All `stderr` in `pty` mode
 > simply goes to `stdout`.
 

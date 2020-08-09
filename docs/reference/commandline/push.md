@@ -4,15 +4,6 @@ description: "The push command description and usage"
 keywords: "share, push, image"
 ---
 
-<!-- This file is maintained within the docker/cli GitHub
-     repository at https://github.com/docker/cli/. Make all
-     pull requests against that repo. If you see this file in
-     another repository, consider it read-only there, as it will
-     periodically be overwritten by the definitive file. Pull
-     requests which include edits to this file in other repositories
-     will be rejected.
--->
-
 # push
 
 ```markdown
@@ -36,9 +27,9 @@ image and tag names.
 Killing the `docker push` process, for example by pressing `CTRL-c` while it is
 running in a terminal, terminates the push operation.
 
-Progress bars are shown during docker push, which show the uncompressed size. The 
-actual amount of data that's pushed will be compressed before sending, so the uploaded
- size will not be reflected by the progress bar. 
+Progress bars are shown during docker push, which show the uncompressed size.
+The actual amount of data that's pushed will be compressed before sending, so
+the uploaded size will not be reflected by the progress bar.
 
 Registry credentials are managed by [docker login](login.md).
 

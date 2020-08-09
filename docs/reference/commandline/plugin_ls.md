@@ -4,15 +4,6 @@ description: "The plugin ls command description and usage"
 keywords: "plugin, list"
 ---
 
-<!-- This file is maintained within the docker/cli GitHub
-     repository at https://github.com/docker/cli/. Make all
-     pull requests against that repo. If you see this file in
-     another repository, consider it read-only there, as it will
-     periodically be overwritten by the definitive file. Pull
-     requests which include edits to this file in other repositories
-     will be rejected.
--->
-
 # plugin ls
 
 ```markdown
@@ -84,8 +75,8 @@ using a Go template.
 
 Valid placeholders for the Go template are listed below:
 
-Placeholder    | Description
----------------|------------------------------------------------------------------------------------------
+Placeholder        | Description
+-------------------|------------------------------------------------------------
 `.ID`              | Plugin ID
 `.Name`            | Plugin name
 `.Description`     | Plugin description
@@ -97,7 +88,7 @@ output the data exactly as the template declares or, when using the
 `table` directive, includes column headers as well.
 
 The following example uses a template without headers and outputs the
-`ID` and `Name` entries separated by a colon for all plugins:
+`ID` and `Name` entries separated by a colon (`:`) for all plugins:
 
 ```bash
 $ docker plugin ls --format "{{.ID}}: {{.Name}}"

@@ -6,13 +6,12 @@ import (
 	"testing"
 
 	"github.com/docker/cli/internal/test"
+	. "github.com/docker/cli/internal/test/builders" // Import builders to get the builder function as package functions
 	"github.com/docker/docker/api/types"
 	"github.com/docker/docker/api/types/swarm"
 	"github.com/pkg/errors"
-	// Import builders to get the builder function as package function
-	. "github.com/docker/cli/internal/test/builders"
-	"gotest.tools/assert"
-	"gotest.tools/golden"
+	"gotest.tools/v3/assert"
+	"gotest.tools/v3/golden"
 )
 
 func TestNodeInspectErrors(t *testing.T) {

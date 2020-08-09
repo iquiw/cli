@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"testing"
 
-	"gotest.tools/assert"
+	"gotest.tools/v3/assert"
 )
 
 type dict map[string]interface{}
@@ -117,7 +117,6 @@ func TestValidateCredentialSpecs(t *testing.T) {
 			}
 		})
 	}
-
 }
 
 func TestValidateSecretConfigNames(t *testing.T) {

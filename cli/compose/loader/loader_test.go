@@ -12,8 +12,8 @@ import (
 	"github.com/docker/cli/cli/compose/types"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/sirupsen/logrus"
-	"gotest.tools/assert"
-	is "gotest.tools/assert/cmp"
+	"gotest.tools/v3/assert"
+	is "gotest.tools/v3/assert/cmp"
 )
 
 func buildConfigDetails(source map[string]interface{}, env map[string]string) types.ConfigDetails {
@@ -582,7 +582,7 @@ volumes:
 
 func TestLoadWithInterpolationCastFull(t *testing.T) {
 	dict, err := ParseYAML([]byte(`
-version: "3.7"
+version: "3.8"
 services:
   web:
     configs:
@@ -604,6 +604,8 @@ services:
         max_failure_ratio: $thefloat
       restart_policy:
         max_attempts: $theint
+      placement:
+        max_replicas_per_node: $theint
     ports:
       - $theint
       - "34567"
@@ -652,7 +654,7 @@ networks:
 	assert.NilError(t, err)
 	expected := &types.Config{
 		Filename: "filename.yml",
-		Version:  "3.7",
+		Version:  "3.8",
 		Services: []types.ServiceConfig{
 			{
 				Name: "web",
@@ -684,6 +686,9 @@ networks:
 					},
 					RestartPolicy: &types.RestartPolicy{
 						MaxAttempts: uint64Ptr(555),
+					},
+					Placement: types.Placement{
+						MaxReplicas: 555,
 					},
 				},
 				Ports: []types.ServicePortConfig{
@@ -1271,11 +1276,13 @@ services:
     extra_hosts:
       "zulu": "162.242.195.82"
       "alpha": "50.31.209.229"
+      "host.docker.internal": "host-gateway"
 `)
 	assert.NilError(t, err)
 
 	expected := types.HostsList{
 		"alpha:50.31.209.229",
+		"host.docker.internal:host-gateway",
 		"zulu:162.242.195.82",
 	}
 
@@ -1293,6 +1300,7 @@ services:
       - "zulu:162.242.195.82"
       - "alpha:50.31.209.229"
       - "zulu:ff02::1"
+      - "host.docker.internal:host-gateway"
 `)
 	assert.NilError(t, err)
 
@@ -1300,6 +1308,7 @@ services:
 		"zulu:162.242.195.82",
 		"alpha:50.31.209.229",
 		"zulu:ff02::1",
+		"host.docker.internal:host-gateway",
 	}
 
 	assert.Assert(t, is.Len(config.Services, 1))
@@ -1583,6 +1592,7 @@ services:
 		},
 	}
 	for _, testcase := range testcases {
+		testcase := testcase
 		t.Run(testcase.doc, func(t *testing.T) {
 			config, err := loadYAML(testcase.yaml)
 			assert.NilError(t, err)

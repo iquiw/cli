@@ -14,9 +14,9 @@ import (
 	"github.com/docker/go-connections/nat"
 	"github.com/pkg/errors"
 	"github.com/spf13/pflag"
-	"gotest.tools/assert"
-	is "gotest.tools/assert/cmp"
-	"gotest.tools/skip"
+	"gotest.tools/v3/assert"
+	is "gotest.tools/v3/assert/cmp"
+	"gotest.tools/v3/skip"
 )
 
 func TestValidateAttach(t *testing.T) {
@@ -65,7 +65,7 @@ func setupRunFlags() (*pflag.FlagSet, *containerOptions) {
 }
 
 func parseMustError(t *testing.T, args string) {
-	_, _, _, err := parseRun(strings.Split(args+" ubuntu bash", " "))
+	_, _, _, err := parseRun(strings.Split(args+" ubuntu bash", " ")) //nolint:dogsled
 	assert.ErrorContains(t, err, "", args)
 }
 
@@ -539,7 +539,7 @@ func TestParseModes(t *testing.T) {
 	}
 
 	// uts ko
-	_, _, _, err = parseRun([]string{"--uts=container:", "img", "cmd"})
+	_, _, _, err = parseRun([]string{"--uts=container:", "img", "cmd"}) //nolint:dogsled
 	assert.ErrorContains(t, err, "--uts: invalid UTS mode")
 
 	// uts ok
@@ -600,7 +600,7 @@ func TestParseRestartPolicy(t *testing.T) {
 
 func TestParseRestartPolicyAutoRemove(t *testing.T) {
 	expected := "Conflicting options: --restart and --rm"
-	_, _, _, err := parseRun([]string{"--rm", "--restart=always", "img", "cmd"})
+	_, _, _, err := parseRun([]string{"--rm", "--restart=always", "img", "cmd"}) //nolint:dogsled
 	if err == nil || err.Error() != expected {
 		t.Fatalf("Expected error %v, but got none", expected)
 	}
@@ -853,4 +853,10 @@ func TestParseSystemPaths(t *testing.T) {
 		assert.DeepEqual(t, maskedPaths, tc.masked)
 		assert.DeepEqual(t, readonlyPaths, tc.readonly)
 	}
+}
+
+func TestParsePortOpts(t *testing.T) {
+	parsed, err := parsePortOpts([]string{"published=1500,target=200", "target=80,published=90"})
+	assert.NilError(t, err)
+	assert.DeepEqual(t, []string{"1500:200/tcp", "90:80/tcp"}, parsed)
 }

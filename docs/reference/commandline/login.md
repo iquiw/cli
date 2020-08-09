@@ -4,15 +4,6 @@ description: "The login command description and usage"
 keywords: "registry, login, image"
 ---
 
-<!-- This file is maintained within the docker/cli GitHub
-     repository at https://github.com/docker/cli/. Make all
-     pull requests against that repo. If you see this file in
-     another repository, consider it read-only there, as it will
-     periodically be overwritten by the definitive file. Pull
-     requests which include edits to this file in other repositories
-     will be rejected.
--->
-
 # login
 
 ```markdown
@@ -31,6 +22,8 @@ Options:
 ## Description
 
 Login to a registry.
+
+## Examples
 
 ### Login to a self-hosted registry
 
@@ -94,7 +87,7 @@ For example, to use `docker-credential-osxkeychain`:
 
 ```json
 {
-	"credsStore": "osxkeychain"
+  "credsStore": "osxkeychain"
 }
 ```
 
@@ -124,9 +117,9 @@ or an identity token.
 
 ```json
 {
-	"ServerURL": "https://index.docker.io/v1",
-	"Username": "david",
-	"Secret": "passw0rd1"
+  "ServerURL": "https://index.docker.io/v1",
+  "Username": "david",
+  "Secret": "passw0rd1"
 }
 ```
 
@@ -145,8 +138,8 @@ and password from this payload:
 
 ```json
 {
-	"Username": "david",
-	"Secret": "passw0rd1"
+  "Username": "david",
+  "Secret": "passw0rd1"
 }
 ```
 

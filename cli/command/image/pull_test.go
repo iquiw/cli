@@ -10,9 +10,9 @@ import (
 	"github.com/docker/cli/internal/test"
 	"github.com/docker/cli/internal/test/notary"
 	"github.com/docker/docker/api/types"
-	"gotest.tools/assert"
-	is "gotest.tools/assert/cmp"
-	"gotest.tools/golden"
+	"gotest.tools/v3/assert"
+	is "gotest.tools/v3/assert/cmp"
+	"gotest.tools/v3/golden"
 )
 
 func TestNewPullCommandErrors(t *testing.T) {
@@ -50,7 +50,6 @@ func TestNewPullCommandSuccess(t *testing.T) {
 	testCases := []struct {
 		name        string
 		args        []string
-		flags       map[string]string
 		expectedTag string
 	}{
 		{
@@ -64,11 +63,8 @@ func TestNewPullCommandSuccess(t *testing.T) {
 			expectedTag: "image:latest",
 		},
 		{
-			name: "simple-quiet",
-			args: []string{"image"},
-			flags: map[string]string{
-				"quiet": "true",
-			},
+			name:        "simple-quiet",
+			args:        []string{"--quiet", "image"},
 			expectedTag: "image:latest",
 		},
 	}

@@ -4,15 +4,6 @@ description: "The info command description and usage"
 keywords: "display, docker, information"
 ---
 
-<!-- This file is maintained within the docker/cli GitHub
-     repository at https://github.com/docker/cli/. Make all
-     pull requests against that repo. If you see this file in
-     another repository, consider it read-only there, as it will
-     periodically be overwritten by the definitive file. Pull
-     requests which include edits to this file in other repositories
-     will be rejected.
--->
-
 # info
 
 ```markdown
@@ -106,7 +97,7 @@ Server:
   myinsecurehost:5000
   127.0.0.0/8
 ```
- 
+
 ### Show debugging output
 
 Here is a sample output for a daemon running on Ubuntu, using the overlay2
@@ -211,7 +202,7 @@ $ docker info --format '{{json .}}'
 
 Here is a sample output for a daemon running on Windows Server 2016:
 
-```none
+```console
 E:\docker>docker info
 Client:
  Debug Mode: false

@@ -17,9 +17,9 @@ import (
 	"github.com/theupdateframework/notary/client"
 	"github.com/theupdateframework/notary/tuf/data"
 	"github.com/theupdateframework/notary/tuf/utils"
-	"gotest.tools/assert"
-	is "gotest.tools/assert/cmp"
-	"gotest.tools/golden"
+	"gotest.tools/v3/assert"
+	is "gotest.tools/v3/assert/cmp"
+	"gotest.tools/v3/golden"
 )
 
 // TODO(n4ss): remove common tests with the regular inspect command
@@ -393,11 +393,6 @@ func TestGetSignerRolesWithKeyIDs(t *testing.T) {
 		"bob":   {"key71", "key72"},
 	}
 
-	var roleWithSigs []client.RoleWithSignatures
-	for _, role := range roles {
-		roleWithSig := client.RoleWithSignatures{Role: role, Signatures: nil}
-		roleWithSigs = append(roleWithSigs, roleWithSig)
-	}
 	signerRoleToKeyIDs := getDelegationRoleToKeyMap(roles)
 	assert.Check(t, is.DeepEqual(expectedSignerRoleToKeyIDs, signerRoleToKeyIDs))
 }

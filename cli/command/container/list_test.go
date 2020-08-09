@@ -7,11 +7,10 @@ import (
 
 	"github.com/docker/cli/cli/config/configfile"
 	"github.com/docker/cli/internal/test"
+	. "github.com/docker/cli/internal/test/builders" // Import builders to get the builder function as package function
 	"github.com/docker/docker/api/types"
-	// Import builders to get the builder function as package function
-	. "github.com/docker/cli/internal/test/builders"
-	"gotest.tools/assert"
-	"gotest.tools/golden"
+	"gotest.tools/v3/assert"
+	"gotest.tools/v3/golden"
 )
 
 func TestContainerListErrors(t *testing.T) {

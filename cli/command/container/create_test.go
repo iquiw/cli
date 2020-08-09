@@ -19,10 +19,10 @@ import (
 	"github.com/docker/docker/api/types/network"
 	"github.com/google/go-cmp/cmp"
 	"github.com/pkg/errors"
-	"gotest.tools/assert"
-	is "gotest.tools/assert/cmp"
-	"gotest.tools/fs"
-	"gotest.tools/golden"
+	"gotest.tools/v3/assert"
+	is "gotest.tools/v3/assert/cmp"
+	"gotest.tools/v3/fs"
+	"gotest.tools/v3/golden"
 )
 
 func TestCIDFileNoOPWithNoFilename(t *testing.T) {
@@ -151,6 +151,7 @@ func TestNewCreateCommandWithContentTrustErrors(t *testing.T) {
 		},
 	}
 	for _, tc := range testCases {
+		tc := tc
 		cli := test.NewFakeCli(&fakeClient{
 			createContainerFunc: func(config *container.Config,
 				hostConfig *container.HostConfig,
@@ -209,6 +210,7 @@ func TestNewCreateCommandWithWarnings(t *testing.T) {
 		},
 	}
 	for _, tc := range testCases {
+		tc := tc
 		t.Run(tc.name, func(t *testing.T) {
 			cli := test.NewFakeCli(&fakeClient{
 				createContainerFunc: func(config *container.Config,

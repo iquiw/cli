@@ -10,8 +10,8 @@ import (
 	"github.com/docker/docker/api/types"
 	"github.com/docker/docker/api/types/container"
 	"github.com/docker/docker/api/types/swarm"
-	"gotest.tools/assert"
-	is "gotest.tools/assert/cmp"
+	"gotest.tools/v3/assert"
+	is "gotest.tools/v3/assert/cmp"
 )
 
 func TestCredentialSpecOpt(t *testing.T) {
@@ -202,9 +202,9 @@ func TestToServiceNetwork(t *testing.T) {
 	}
 
 	nwo := opts.NetworkOpt{}
-	nwo.Set("zzz-network")
-	nwo.Set("mmm-network")
-	nwo.Set("aaa-network")
+	assert.NilError(t, nwo.Set("zzz-network"))
+	assert.NilError(t, nwo.Set("mmm-network"))
+	assert.NilError(t, nwo.Set("aaa-network"))
 
 	o := newServiceOptions()
 	o.mode = "replicated"
